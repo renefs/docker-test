@@ -1,0 +1,21 @@
+version: '2'
+services:
+  webapp:
+    restart: always
+    build: ./web
+    links:
+      - redis
+    #volumes:
+    #  - './web/app:/opt/app-root/app'
+    #  - './web/logs:/opt/app-root/logs'
+    #command: python app/main.py
+#    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
+  #postgres:
+  #    image: postgres:9.6
+  #    volumes_from:
+  #      - data
+  #    ports:
+  #      - 5432:5432
+
+  redis:
+      image: redis:latest
