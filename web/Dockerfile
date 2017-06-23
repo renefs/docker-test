@@ -35,4 +35,4 @@ RUN pip install -r requirements.txt
 # Copy the application files
 COPY ./app /opt/app-root/app
 
-CMD ['python', 'app/main.py']
+ENTRYPOINT ['python', 'app/main.py']
