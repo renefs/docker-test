@@ -21,7 +21,7 @@ COPY ./etc /opt/app-root/etc
 RUN chmod ug+x /opt/app-root/etc/entrypoint.sh
 
 # Set the permissions for the app-user user
-RUN chown 1001:0 /opt/app-root && chmod -R ug+rwx /opt/app-root
+RUN chgrp -R 0 /opt/app-root && chmod -R ug+rwx /opt/app-root
 
 USER 1001
 WORKDIR /opt/app-root
@@ -34,3 +34,5 @@ COPY requirements.txt /opt/app-root/requirements.txt
 RUN pip install -r requirements.txt
 # Copy the application files
 COPY main.py /opt/app-root/app
+
+CMD ['python', 'app/main.py']
