@@ -33,6 +33,6 @@ RUN pip install uwsgi
 COPY requirements.txt /opt/app-root/requirements.txt
 RUN pip install -r requirements.txt
 # Copy the application files
-COPY main.py /opt/app-root/app
+COPY ./app /opt/app-root/app
 
 CMD ['python', 'app/main.py']
