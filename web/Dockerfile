@@ -30,7 +30,7 @@ RUN pip install --upgrade pip
 # Install uwsgi Python web server
 RUN pip install uwsgi
 # Install pip requirements
-COPY ./requirements.txt /opt/app-root/requirements.txt
+COPY requirements.txt /opt/app-root/requirements.txt
 RUN pip install -r requirements.txt
 # Copy the application files
-COPY ./web/app /opt/app-root/app
+COPY main.py /opt/app-root/app
