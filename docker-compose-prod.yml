@@ -5,15 +5,14 @@ services:
     build: 
       context: ./web
     labels:
-      - "webapp"
+      kompose.service.expose: "counter.example.com"
+      io.kompose.service: "webapp"
     ports:
       - 8080:8080
     links:
       - redis
-    volumes:
-      - './web/app:/opt/app-root/app'
       #- ./web/logs:/opt/app-root/logs
-    command: python app/main.py
+    #command: python app/main.py
 #    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
   #postgres:
   #    image: postgres:9.6

@@ -1,0 +1,125 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+      kompose.service.expose: counter.example.com
+    creationTimestamp: null
+    labels:
+      io.kompose.service: webapp
+    name: webapp
+  spec:
+    ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+    selector:
+      io.kompose.service: webapp
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+      kompose.service.expose: counter.example.com
+    creationTimestamp: null
+    labels:
+      io.kompose.service: webapp
+    name: webapp
+  spec:
+    replicas: 1
+    selector:
+      io.kompose.service: webapp
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          io.kompose.service: webapp
+      spec:
+        containers:
+        - image: ' '
+          name: webapp
+          ports:
+          - containerPort: 8080
+          resources: {}
+        restartPolicy: Always
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - webapp
+        from:
+          kind: ImageStreamTag
+          name: webapp:latest
+      type: ImageChange
+  status: {}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    labels:
+      io.kompose.service: webapp
+    name: webapp
+  spec: {}
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+      kompose.service.expose: counter.example.com
+    creationTimestamp: null
+    labels:
+      io.kompose.service: webapp
+    name: webapp
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: webapp:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: web/
+      git:
+        ref: master
+        uri: https://github.com/renefs/docker-test.git
+      type: Git
+    strategy:
+      dockerStrategy: {}
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      io.kompose.service: webapp
+    name: webapp
+  spec:
+    host: counter.example.com
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: webapp
+      weight: null
+  status:
+    ingress: null
+kind: List
+metadata: {}
+
