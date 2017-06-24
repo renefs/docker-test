@@ -31,6 +31,6 @@ RUN pip install -r requirements.txt
 # Copy the application files
 COPY ./app /opt/app-root/app
 
-#CMD ["uwsgi", "--ini", "/opt/app-root/etc/uwsgi.ini"]
+CMD ["uwsgi", "--ini", "/opt/app-root/etc/uwsgi.ini"]
 #ENTRYPOINT ["python", "app/main.py"]
 #ENTRYPOINT ["/opt/app-root/etc/entrypoint.sh"]
