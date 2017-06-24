@@ -2,9 +2,14 @@ version: '2'
 services:
   webapp:
     restart: always
-    build: ./web
-    links:
-      - redis
+    build: 
+      context: ./web
+    labels:
+      - "webapp"
+    ports:
+      - 8080:8080
+    #links:
+   #   - redis
     #volumes:
     #  - './web/app:/opt/app-root/app'
     #  - './web/logs:/opt/app-root/logs'
@@ -17,5 +22,5 @@ services:
   #    ports:
   #      - 5432:5432
 
-  redis:
-      image: redis:latest
+  #redis:
+  #    image: redis:latest
