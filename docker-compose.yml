@@ -15,12 +15,13 @@ services:
       #- ./web/logs:/opt/app-root/logs
     command: python app/main.py
 #    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
-  #postgres:
-  #    image: postgres:9.6
-  #    volumes_from:
-  #      - data
-  #    ports:
-  #      - 5432:5432
-
+  postgres:
+      image: centos/postgresql-95-centos7
+      environment:
+        - POSTGRESQL_USER=${POSTGRESQL_USER}
+        - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+        - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      ports:
+        - 5432:5432
   redis:
       image: redis:latest

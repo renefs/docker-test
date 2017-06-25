@@ -5,12 +5,13 @@ services:
     build: 
       context: ./web
     labels:
-      kompose.service.expose: "counter.example.com"
+      kompose.service.expose: ${HOST}
       io.kompose.service: "webapp"
     ports:
       - 8080:8080
     links:
       - redis
+      - postgresql
       #- ./web/logs:/opt/app-root/logs
     #command: python app/main.py
 #    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
@@ -22,4 +23,18 @@ services:
   #      - 5432:5432
 
   redis:
-      image: redis:latest
+    image: redis:latest
+    labels:
+      io.kompose.service: "webapp"
+
+  postgresql:
+      image: centos/postgresql-95-centos7
+      labels:
+        io.kompose.service: "webapp"
+      environment:
+        - POSTGRESQL_USER=${POSTGRESQL_USER}
+        - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+        - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      ports:
+        - 5432:5432
+

@@ -5,7 +5,44 @@ items:
   metadata:
     annotations:
       io.kompose.service: webapp
-      kompose.service.expose: counter.example.com
+    creationTimestamp: null
+    labels:
+      io.kompose.service: postgresql
+    name: postgresql
+  spec:
+    ports:
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
+    selector:
+      io.kompose.service: postgresql
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+    creationTimestamp: null
+    labels:
+      io.kompose.service: redis
+    name: redis
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      targetPort: 0
+    selector:
+      io.kompose.service: redis
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+      kompose.service.expose: example.test.com
     creationTimestamp: null
     labels:
       io.kompose.service: webapp
@@ -24,7 +61,128 @@ items:
   metadata:
     annotations:
       io.kompose.service: webapp
-      kompose.service.expose: counter.example.com
+    creationTimestamp: null
+    labels:
+      io.kompose.service: postgresql
+    name: postgresql
+  spec:
+    replicas: 1
+    selector:
+      io.kompose.service: postgresql
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          io.kompose.service: postgresql
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            value: test_user
+          - name: POSTGRESQL_DATABASE
+            value: test_db
+          - name: POSTGRESQL_PASSWORD
+            value: test_password
+          image: ' '
+          name: postgresql
+          ports:
+          - containerPort: 5432
+          resources: {}
+        restartPolicy: Always
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:latest
+      type: ImageChange
+  status: {}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    labels:
+      io.kompose.service: postgresql
+    name: postgresql
+  spec:
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: centos/postgresql-95-centos7
+      generation: null
+      importPolicy: {}
+      name: latest
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+    creationTimestamp: null
+    labels:
+      io.kompose.service: redis
+    name: redis
+  spec:
+    replicas: 1
+    selector:
+      io.kompose.service: redis
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          io.kompose.service: redis
+      spec:
+        containers:
+        - image: ' '
+          name: redis
+          resources: {}
+        restartPolicy: Always
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - redis
+        from:
+          kind: ImageStreamTag
+          name: redis:latest
+      type: ImageChange
+  status: {}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    labels:
+      io.kompose.service: redis
+    name: redis
+  spec:
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: redis:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      io.kompose.service: webapp
+      kompose.service.expose: example.test.com
     creationTimestamp: null
     labels:
       io.kompose.service: webapp
@@ -75,7 +233,7 @@ items:
   metadata:
     annotations:
       io.kompose.service: webapp
-      kompose.service.expose: counter.example.com
+      kompose.service.expose: example.test.com
     creationTimestamp: null
     labels:
       io.kompose.service: webapp
@@ -111,7 +269,7 @@ items:
       io.kompose.service: webapp
     name: webapp
   spec:
-    host: counter.example.com
+    host: example.test.com
     port:
       targetPort: 8080
     to:
