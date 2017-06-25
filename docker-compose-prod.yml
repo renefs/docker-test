@@ -7,13 +7,12 @@ services:
     labels:
       kompose.service.expose: ${HOST}
       io.kompose.service: "webapp"
-    ports:
-      - 8080:8080
     links:
       - redis
       - postgresql
     volumes:
       - webapp-logs:/data/logs
+      - /opt/app-root/app
     environment:
       - GET_HOSTS_FROM=dns
       #- ./web/app:/opt/app-root/app # Not working. Creating empty directory
@@ -35,6 +34,15 @@ services:
         - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       ports:
         - 5432:5432
+
+  nginx:
+    build:
+      context: ./nginx
+    expose:
+      - 8080:8080
+    volumes_from:
+      - web
+
 volumes:
   webapp-logs:
     external: true
