@@ -10,12 +10,13 @@ services:
       - 8080:8080
     links:
       - redis
+      - postgresql
     volumes:
       - './web/app:/opt/app-root/app'
       #- ./web/logs:/opt/app-root/logs
     command: python app/main.py
 #    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
-  postgres:
+  postgresql:
       image: centos/postgresql-95-centos7
       environment:
         - POSTGRESQL_USER=${POSTGRESQL_USER}

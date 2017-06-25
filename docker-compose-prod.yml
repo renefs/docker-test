@@ -12,15 +12,11 @@ services:
     links:
       - redis
       - postgresql
-      #- ./web/logs:/opt/app-root/logs
-    #command: python app/main.py
-#    command: uwsgi --ini /opt/app-root/etc/uwsgi.ini
-  #postgres:
-  #    image: postgres:9.6
-  #    volumes_from:
-  #      - data
-  #    ports:
-  #      - 5432:5432
+    volumes:
+      - webapp-logs:/data/logs
+    environment:
+      - GET_HOSTS_FROM=dns
+      #- ./web/app:/opt/app-root/app # Not working. Creating empty directory
 
   redis:
     image: redis:latest
@@ -29,6 +25,8 @@ services:
 
   postgresql:
       image: centos/postgresql-95-centos7
+      volumes:
+        - postgresql-data:/var/lib/postgresql
       labels:
         io.kompose.service: "webapp"
       environment:
@@ -37,4 +35,6 @@ services:
         - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       ports:
         - 5432:5432
-
+volumes:
+  webapp-logs:
+    external: true
