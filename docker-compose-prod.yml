@@ -42,6 +42,8 @@ services:
       - 8080:8080
     volumes_from:
       - web
+    labels:
+      io.kompose.service: "webapp"
 
 volumes:
   webapp-logs:
