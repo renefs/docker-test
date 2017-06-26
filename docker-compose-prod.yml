@@ -10,10 +10,9 @@ services:
       - redis
       - postgresql
     volumes:
-      - webapp-logs:/data/logs
-      - /opt/app-root/app
-    environment:
-      - GET_HOSTS_FROM=dns
+      - ./web/app:/opt/app-root/app
+      #- webapp-logs:/data/logs
+      #- /opt/app-root/app:ro
       #- ./web/app:/opt/app-root/app # Not working. Creating empty directory
 
   redis:
@@ -40,14 +39,12 @@ services:
     labels:
       kompose.service.expose: ${HOST}
       io.kompose.service: "webapp"
-    expose:
+    links:
+      - webapp
+    ports:
       - 8080:8080
     environment:
       - NGINX_HOST=${HOST}
       - NGINX_PORT=8080
     volumes_from:
       - webapp
-
-volumes:
-  webapp-logs:
-    external: true

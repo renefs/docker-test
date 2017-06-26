@@ -43,4 +43,5 @@ echo 'Starting app...'
 # Running the application directly would work, but is better using uwsgi
 # python main.py
 # We run the application using uwsgi
+cp -rf /opt/app-root/app-temp/* /opt/app-root/app
 uwsgi --ini /opt/app-root/etc/uwsgi.ini
