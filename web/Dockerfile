@@ -1,6 +1,6 @@
 FROM centos/python-34-centos7
 
-EXPOSE 8080
+EXPOSE 8080 59999
 
 # Install yum packages with the ROOT user
 USER root
