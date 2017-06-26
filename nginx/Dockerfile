@@ -9,4 +9,6 @@ EXPOSE 8080
 RUN chgrp -R 0 /var/* /etc/nginx && chmod -R g+rwX /var/* /etc/nginx
 RUN chmod ug+x /etc/nginx/entrypoint.sh
 
+USER 1001
+
 CMD ["/etc/nginx/entrypoint.sh"]
