@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   webapp:
     restart: always
     build: 
@@ -7,16 +8,13 @@ services:
     labels:
       io.kompose.service: "webapp"
     ports:
-      - 8080:8080
       - 59999:59999
     links:
       - redis
       - postgresql
     volumes:
       - ./web/app:/opt/app-root/app
-      #- webapp-logs:/data/logs
-      #- /opt/app-root/app:ro
-      #- ./web/app:/opt/app-root/app # Not working. Creating empty directory
+      - webapp-logs:/logs
 
   redis:
     image: redis:latest
@@ -26,7 +24,7 @@ services:
   postgresql:
       image: centos/postgresql-95-centos7
       volumes:
-        - postgresql-data:/var/lib/postgresql
+        - /var/lib/postgresql
       labels:
         io.kompose.service: "webapp"
       environment:
@@ -51,3 +49,6 @@ services:
       - NGINX_PORT=8080
     volumes_from:
       - webapp
+
+volumes:
+  webapp-logs: {}
