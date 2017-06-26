@@ -8,6 +8,7 @@ services:
       io.kompose.service: "webapp"
     ports:
       - 8080:8080
+      - 59999:59999
     links:
       - redis
       - postgresql
