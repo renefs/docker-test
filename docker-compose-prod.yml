@@ -6,6 +6,8 @@ services:
       context: ./web
     labels:
       io.kompose.service: "webapp"
+    ports:
+      - 8080:8080
     links:
       - redis
       - postgresql
