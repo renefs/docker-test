@@ -4,8 +4,6 @@ EXPOSE 8080 59999
 
 # Install yum packages with the ROOT user
 USER root
-#RUN yum install -y epel-release
-#RUN yum install -y python3-devel
 
 ENV LD_LIBRARY_PATH /opt/rh/rh-python34/root/usr/lib64:/opt/rh/httpd24/root/usr/lib64
 ENV PYTHONPATH /opt/app-root
@@ -32,6 +30,4 @@ RUN pip install -r requirements.txt
 COPY ./app /opt/app-root/app
 COPY ./app /opt/app-root/app-temp
 
-#CMD ["uwsgi", "--ini", "/opt/app-root/etc/uwsgi.ini"]
-#ENTRYPOINT ["python", "app/main.py"]
 CMD ["/opt/app-root/etc/entrypoint.sh"]
