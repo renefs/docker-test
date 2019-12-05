@@ -9,7 +9,7 @@ Flask-RESTful==0.3.6
 Flask-REST-JSONAPI==0.12.5
 Flask-SQLAlchemy==2.2
 oauth2client==2.1.0
-pyOpenSSL==16.0.0
+pyOpenSSL==17.5.0
 psycopg2==2.6.2
 redis==2.10.5
 SQLAlchemy-Utils==0.32.14
