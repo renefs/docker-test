@@ -1,6 +1,6 @@
 blinker==1.4
 Flask==1.0
-Flask-Cors==3.0.2
+Flask-Cors==3.0.9
 Flask-Dance==0.10.0
 Flask-JWT-Extended==2.4.1
 Flask-KVSession==0.6.2
